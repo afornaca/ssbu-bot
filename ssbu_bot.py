@@ -1,5 +1,6 @@
 import sqlite3
 from discord.ext import commands
+import discord
 import os
 
 TOKEN = os.getenv('BOT_TOKEN')
@@ -32,10 +33,7 @@ async def characters(ctx):
     # Doing this is almost instant, as is sending a single string to discord
 
     # SELECT {column} FROM {table}
-    curs = conn.execute('''
-                        SELECT Character
-                        FROM ssbuData
-                        ''')
+    curs = conn.execute("SELECT Character FROM ssbuData")
     data = curs.fetchall()
     data_list = []
 
@@ -43,7 +41,9 @@ async def characters(ctx):
     for row in data:
         data_list.append(row[0])
     chars = '\n'.join(data_list)
-    await ctx.send(chars)
+    embed = discord.Embed(title='Characters', description='Print character list in order of appearance')
+    embed.add_field(name='List', value=chars, inline=False)
+    await ctx.author.send(embed=embed)
 
 
 @client.command()
@@ -51,10 +51,7 @@ async def alphabetical(ctx):
     '''
     Print character list in alphabetical order
     '''
-    curs = conn.execute('''
-                            SELECT Character
-                            FROM ssbuData
-                            ''')
+    curs = conn.execute("SELECT Character FROM ssbuData")
     data = curs.fetchall()
     data_list = []
 
@@ -63,7 +60,9 @@ async def alphabetical(ctx):
         data_list.append(row[0])
     data_list.sort()
     chars = '\n'.join(data_list)
-    await ctx.send(chars)
+    embed = discord.Embed(title='Characters', description='Print character list in alphabetical order')
+    embed.add_field(name='List', value=chars, inline=False)
+    await ctx.author.send(embed=embed)
 
 
 @client.command(aliases=['search', 'char', 'searchchar'])
@@ -92,10 +91,9 @@ async def search_by_name(ctx, *, name):
     combined = []
     for i, j in zip(moves, values):
         combined.append(i + j.strip('.0'))
-    await ctx.send(
-                    'Total frames per move for: ' + name + '\n' +
-                    '\n'.join(combined) +
-                    '\n\nNote: If a value returns as -1, then total frames cannot be calculated.')
+    embed = discord.Embed(title=name, description='Total frames for all moves for one character')
+    embed.add_field(name='Moves', value='\n'.join(combined), inline=False)
+    await ctx.author.send(embed=embed)
 
 
 @client.command(aliases=['move'])
@@ -116,8 +114,11 @@ async def search_by_move(ctx, *, move):
         # takes off the '.0' at the end
         # using .strip('.0') was making 50.0 -> 5 for Zelda on !move Nair
         last_list.append(y[0] + ": " + str(y[1])[:-2])
-    await ctx.send('Note: Values of -1 show that total frames cannot be calculated for that move')
-    await ctx.send('\n'.join(last_list))
+    embed = discord.Embed(title=move, description="Each character's total frames for one "
+                                                  "move ordered least to greatest")
+    embed.add_field(name='Note:', value='Values of -1 show that total frames cannot be calculated for that move')
+    embed.add_field(name='List', value='\n'.join(last_list), inline=False)
+    await ctx.author.send(embed=embed)
 
 
 @client.command()
@@ -125,9 +126,9 @@ async def waluigi(ctx):
     '''
     life is pain
     '''
-    await ctx.send('Add me to smash pls ;_;')
+    embed = discord.Embed(title=None, description='Add me to smash pls ;_;')
+    embed.set_image(url="https://i.imgur.com/zZqMht9.png")
+    await ctx.author.send(embed=embed)
 
 
 client.run(TOKEN)
-
-
