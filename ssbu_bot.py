@@ -68,6 +68,9 @@ async def alphabetical(ctx):
 
 @client.command(aliases=['search', 'char', 'searchchar'])
 async def search_by_name(ctx, *, name):
+    '''
+    Returns framedata for all moves for one character
+    '''
     curs = conn.execute('''
                         SELECT Nair, Fair, Bair, Uair, Dair, Jab, Ftilt, Utilt, Dtilt, 
                         DashAttack, Fsmash, Usmash, Dsmash, Neutralb, Sideb, 
@@ -93,6 +96,28 @@ async def search_by_name(ctx, *, name):
                     'Total frames per move for: ' + name + '\n' +
                     '\n'.join(combined) +
                     '\n\nNote: If a value returns as -1, then total frames cannot be calculated.')
+
+
+@client.command(aliases=['move'])
+async def search_by_move(ctx, *, move):
+    '''
+    Prints each character's total frames for one move ordered least to greatest
+    '''
+    char_list = [chars[0] for chars in cursor.execute("SELECT Character FROM ssbuData")]
+    move_data = [data[0] for data in cursor.execute("SELECT {} FROM ssbuData".format(move))]
+
+    # convert to float so it sorts least to greatest rather than alphabetical
+    move_data = [float(z) for z in move_data]
+    new_list = list(zip(char_list, move_data))
+    # sorts by the second element in the tuple which is all the float values
+    new_list = sorted(new_list, key=lambda x: x[1])
+    last_list = []
+    for y in new_list:
+        # takes off the '.0' at the end
+        # using .strip('.0') was making 50.0 -> 5 for Zelda on !move Nair
+        last_list.append(y[0] + ": " + str(y[1])[:-2])
+    await ctx.send('Note: Values of -1 show that total frames cannot be calculated for that move')
+    await ctx.send('\n'.join(last_list))
 
 
 @client.command()
