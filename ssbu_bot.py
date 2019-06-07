@@ -14,6 +14,7 @@ cursor = conn.cursor()
 @client.event
 async def on_ready():
     print("I'm online :)")
+    await client.change_presence(activity=discord.Game(name='Ganon Dittos'))
 
 
 @client.event
@@ -60,7 +61,7 @@ async def alphabetical(ctx):
         data_list.append(row[0])
     data_list.sort()
     chars = '\n'.join(data_list)
-    embed = discord.Embed(title='Characters', description='Print character list in alphabetical order')
+    embed = discord.Embed(title='Characters a-z', description='Print character list in alphabetical order')
     embed.add_field(name='List', value=chars, inline=False)
     await ctx.author.send(embed=embed)
 
@@ -126,8 +127,19 @@ async def waluigi(ctx):
     '''
     life is pain
     '''
-    embed = discord.Embed(title=None, description='Add me to smash pls ;_;')
+    embed = discord.Embed(title='Add me to smash pls ;_;')
     embed.set_image(url="https://i.imgur.com/zZqMht9.png")
+    await ctx.author.send(embed=embed)
+
+
+@client.command()
+async def version(ctx):
+    '''
+    returns what version of the game the frame data is from
+    '''
+    embed = discord.Embed(title='Version 3.0', description='If the current version is out of date, '
+                                                           'expect it to be fixed in the next few days'
+                                                           "\n \n... don't hold me to that^")
     await ctx.author.send(embed=embed)
 
 
