@@ -13,6 +13,10 @@ Issue a command to the bot in a text channel of the server the bot is in and it 
     
     ![input: !move Dair](https://i.gyazo.com/a05a0c5cb3b69090d69ca2b1fac64e96.png)
   
+  * Move_list (!moves | !movelist)
+	  - Returns a list of all the moves to see how to spell each one when searching
+    ![input: !moves](https://i.gyazo.com/44f5a031efb30818956e2df01636b27c.png)
+  
   * Characters (!characters)
 	  - Returns a list of all the characters in the order given on Nintendo's website
     
