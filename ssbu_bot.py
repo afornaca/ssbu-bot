@@ -122,6 +122,20 @@ async def search_by_move(ctx, *, move):
     await ctx.author.send(embed=embed)
 
 
+@client.command(aliases=['movelist', 'moves'])
+async def move_list(ctx):
+    c = conn.cursor()
+    c.execute('PRAGMA TABLE_INFO({})'.format('ssbuData'))
+
+    move_names = [tup[1] for tup in c.fetchall()]
+    moves_list = []
+    for i in range(2, len(move_names)):
+        moves_list.append(move_names[i])
+
+    embed = discord.Embed(title='Move List', description='\n'.join(moves_list))
+    await ctx.author.send(embed=embed)
+
+
 @client.command()
 async def waluigi(ctx):
     '''
