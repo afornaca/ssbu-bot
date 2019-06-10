@@ -136,6 +136,34 @@ async def move_list(ctx):
     await ctx.author.send(embed=embed)
 
 
+@client.command(aliases=['comp'])
+async def compare(ctx, char1, char2):
+    moves = ['Nair: ', 'Fair: ', 'Bair: ', 'Uair: ', 'Dair: ', 'Jab: ', 'Ftilt: ', 'Utilt: '
+            , 'Dtilt: ', 'DashAttack: ', 'Fsmash: ', 'Usmash: ', 'Dsmash: ', 'Neutralb: '
+            , 'Sideb: ', 'Upb: ', 'Downb: ', 'Grab: ', 'DashGrab: ']
+    embed = discord.Embed(title='Move Comparison', description='Compare each move for two characters')
+    char_to_comp = [char1, char2]
+    for char in char_to_comp:
+        curs = conn.execute('''
+                            SELECT Nair, Fair, Bair, Uair, Dair, Jab, Ftilt, Utilt, Dtilt, 
+                            DashAttack, Fsmash, Usmash, Dsmash, Neutralb, Sideb, 
+                            Upb, Downb, Grab, DashGrab
+                            FROM ssbuData
+                            WHERE Character = (?)''', (char,))
+        data = curs.fetchall()
+        tup = ()
+        for x in data:
+            tup = x
+        values = list(tup)
+
+        combined = []
+        for i, j in zip(moves, values):
+            combined.append(i + j.strip('.0'))
+        embed.add_field(name=char, value='\n'.join(combined), inline=True)
+
+    await ctx.author.send(embed=embed)
+
+
 @client.command()
 async def waluigi(ctx):
     '''
@@ -158,3 +186,5 @@ async def version(ctx):
 
 
 client.run(TOKEN)
+
+
