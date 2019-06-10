@@ -3,6 +3,12 @@ Issue a command to the bot in a text channel of the server the bot is in and it 
 
 ## Command List (Use either ! or ? as a prefix)
 
+  * Compare (!comp {charactername1 charactername2})
+	  - Returns the total frames for each move for both characters side by side
+    
+    ![input: !comp Roy Pichu](https://i.gyazo.com/4656f8c8524c2b5bb4d7e30fcd74edf3.png)
+    
+
   * Search_By_Name (!search {charactername} | !char {charactername} | !searchchar {charactername} | !search_by_name {charactername})
 	  - Returns the total frames for each move for the user specified character
     
@@ -12,6 +18,7 @@ Issue a command to the bot in a text channel of the server the bot is in and it 
 	  - Returns each character's total frames for the user specified move in order from least to greatest
     
     ![input: !move Dair](https://i.gyazo.com/a05a0c5cb3b69090d69ca2b1fac64e96.png)
+    
   
   * Move_list (!moves | !movelist)
 	  - Returns a list of all the moves to see how to spell each one when searching
