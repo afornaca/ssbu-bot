@@ -2,11 +2,11 @@
 Issue a command to the bot in a text channel of the server the bot is in and it will send you a private message containing the information pertaining to the command.
 
 ## Coming Soon
-	* Will be adding more tables to the database for more specific and useful frame data
+   * Will be adding more tables to the database for more specific and useful frame data
 		- Startup Frames
 		- On Shield
 		- Active Frames
-	* Scraping the frame data off of https://ultimateframedata.com/ using BeautifulSoup and writing a script to automatically populate the database with the new frame data after future balance changes
+   * Scraping the frame data off of https://ultimateframedata.com/ using BeautifulSoup and writing a script to automatically populate the database with the new frame data after future balance changes
 
 ## Command List (Use either ! or ? as a prefix)
 
